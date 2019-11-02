@@ -17,10 +17,10 @@ se detecta BLANCO cuando hay un CERO LOGICO en cierto pin (a definir)
 	TABLA DE COMPORTAMIENTO
 
 SENSOR_IZQ | SENSOR_DER  |   MOVIMIENTO
-	0	   |     0       |	   avanzar
-	0	   |	 1		 |	 girar a der
-	1	   |	 0		 |   girar a izq
-	1	   |	 1		 |	   frenar
+0	   |     0       |	avanzar
+0	   |	 1	 |   girar a der
+1	   |	 0	 |   girar a izq
+1	   |	 1	 |	frenar
 */
 
 .EQU SENSOR_IZQ = PIND5 ; pinD 4 es el sensor izquierdo
