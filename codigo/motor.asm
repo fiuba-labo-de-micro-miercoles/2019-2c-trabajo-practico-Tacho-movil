@@ -36,6 +36,7 @@ CONFIG:
 	;seteo como salida los pines que controlan el motor (AHORA DDRD)
 	SBI DDRD, MOTOR_IZQ
 	SBI DDRD, MOTOR_DER
+	RCALL PRENDER_AMBOS_MOTORES
 LOOP:	
 	;leemos los sensores (condicion de corte, PIND4=PIND5=1)
 	IN R16, PIND
@@ -44,11 +45,14 @@ LOOP:
 	BREQ LOOP
 	ANDI R16, 1<<PIND4 || 1<<PIND5 ;nos quedamos bit4 y bit5
 	CPI R16, 1<<PIND4 || 1<<PIND5
-	BREQ EXIT_MVOER_TACHO_ADELANTE ;los sensores devolvieron 1 y 1 -> frenar
+	BREQ EXIT_MOVER_TACHO_ADELANTE ;los sensores devolvieron 1 y 1 -> frenar
 	;si se llega a esta porcion de codigo pinD4 y 5 no son ni 00 ni 11
 	SBIC PORTD, PIND4
 	RJMP GIRAR_IZQUIERDA ;si pind4 = 1 -> gira a la izquierda
 	RJMP GIRAR_DERECHA ;		¿es mejor poner RCALL o RJMP? 
+
+EXIT_MOVER_TACHO_ADELANTE:
+	RET
 
 GIRAR_IZQUIERDA:
 	RCALL APAGAR_MOTOR_IZQ
@@ -62,12 +66,19 @@ GIRAR_DERECHA:
 	RCALL PRENDER_MOTOR_DER
 	RET ;#### o RJMO LOOP si no queremos que sea una rutina (¿¿que es mas conveniente??)
 
+PRENDER_AMBOS_MOTORES:
+	;se crea una rutina que prende ambos motores al mismo tiempo para evitar que el carro gire por el retraso entre ruedas
+	IN R16, PORTD
+	ORI R16, 1<<MOTOR_IZQ || 1<< MOTOR_DER
+	OUT PORTD, R16
+	RET
+
 APAGAR_MOTOR_IZQ:
-	CBI DDRD, MOTOR_IZQ
+	CBI PORTD, MOTOR_IZQ
 	RET
 
 PRENDER_MOTOR_IZQ:
-	SBI DDRD, MOTOR_IZQ
+	SBI PORTD, MOTOR_IZQ
 	RET
 
 APAGAR_MOTOR_DER:
@@ -81,12 +92,12 @@ PRENDER_MOTOR_DER:
 DELAY:
 	;esta rutina es un delay de T tiempo que servira para ir girando el carro de a poquito
 	LDI R16, 100
-LOOP:
+LOOP_DELAY:
 	DEC R16
 	BREQ EXIT_DELAY
-	RJMP LOOP
+	RJMP LOOP_DELAY
+
 EXIT_DELAY:
 	RET
 	 
-EXIT_MOVER_TACHO_ADELANTE:
-	RET	
+	
