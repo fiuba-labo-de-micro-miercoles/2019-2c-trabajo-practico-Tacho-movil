@@ -4,9 +4,9 @@ Acá vamos agregando las tareas que restan por hacer. De cualquier índole pero 
 
 **FUNCIONES A DEFINIR** :
 
-- GIRAR_DERECHA: rutina que se encargue de girar la plataforma hacia la derecha. Para ello apagar la rueda izquierda con un delay predefinido las veces necesarias.
+- _GIRAR_DERECHA: rutina que se encargue de girar la plataforma hacia la derecha. Para ello apagar la rueda izquierda con un delay predefinido las veces necesarias. (Done)
 
-- GIRAR_IZQUIERDA: rutina para girar a la izquierda.
+- _GIRAR_IZQUIERDA: rutina para girar a la izquierda.(Done)
 
 - ABRIR_TAPA: rutina para abrir la tapa. Usando un servomotor.
 
