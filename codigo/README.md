@@ -13,3 +13,5 @@ FUNCIONES A DEFINIR :
 -MOVER_TACHO_RETIRADA: desplazamiento del tacho para volver a la base.
 
 COSAS RANDOM:
+
+-HACER UN ESQUEMATICO DEL CIRCUITO
