@@ -8,7 +8,7 @@ Integrantes:
 -De Marco, Facundo (100620)
 -Gayet, Denise (100828)
 
-Proyecto (**smarTrash**) 
+Proyecto (**smarTTrash**) 
 
 
 Descripción:
