@@ -2,7 +2,7 @@
 Acá vamos agregando las tareas que restan por hacer. De cualquier índole pero principalmente en cuanto a código.
 
 
-FUNCIONES A DEFINIR :
+**FUNCIONES A DEFINIR** :
 
 -GIRAR_DERECHA: rutina que se encargue de girar la plataforma hacia la derecha. Para ello apagar la rueda izquierda con un delay predefinido las veces necesarias.
 
