@@ -28,6 +28,8 @@ SENSOR_IZQ | SENSOR_DER  |   MOVIMIENTO
 .EQU MOTOR_IZQ = PIND1 ;motor izquierdo para mover tacho
 .EQU MOTOR_DER = PIND0 ;motor derecho para mover tacho
 
+.CSEG
+.ORG 
 MOVER_TACHO_ADELANTE:
 CONFIG:
 	;setear como entrada los pintes de c/u de los sensores (AHORA DDRD)
@@ -49,7 +51,7 @@ LOOP:
 	;si se llega a esta porcion de codigo pinD4 y 5 no son ni 00 ni 11
 	SBIC PORTD, PIND4
 	RJMP GIRAR_IZQUIERDA ;si pind4 = 1 -> gira a la izquierda
-	RJMP GIRAR_DERECHA ;		¿es mejor poner RCALL o RJMP? 
+	RJMP GIRAR_DERECHA ;		Â¿es mejor poner RCALL o RJMP? 
 
 EXIT_MOVER_TACHO_ADELANTE:
 	RET
@@ -58,13 +60,13 @@ GIRAR_IZQUIERDA:
 	RCALL APAGAR_MOTOR_IZQ
 	RCALL DELAY
 	RCALL PRENDER_MOTOR_IZQ
-	RET  ;#### o RJMO LOOP si no queremos que sea una rutina (¿¿que es mas conveniente??)
+	RET  ;#### o RJMO LOOP si no queremos que sea una rutina (Â¿Â¿que es mas conveniente??)
 
 GIRAR_DERECHA:
 	RCALL APAGAR_MOTOR_DER
 	RCALL DELAY
 	RCALL PRENDER_MOTOR_DER
-	RET ;#### o RJMO LOOP si no queremos que sea una rutina (¿¿que es mas conveniente??)
+	RET ;#### o RJMO LOOP si no queremos que sea una rutina (Â¿Â¿que es mas conveniente??)
 
 PRENDER_AMBOS_MOTORES:
 	;se crea una rutina que prende ambos motores al mismo tiempo para evitar que el carro gire por el retraso entre ruedas
