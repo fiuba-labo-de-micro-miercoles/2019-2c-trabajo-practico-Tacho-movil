@@ -11,3 +11,5 @@ FUNCIONES A DEFINIR :
 -ABRIR_TAPA: rutina para abrir la tapa. Usando un servomotor.
 
 -MOVER_TACHO_RETIRADA: desplazamiento del tacho para volver a la base.
+
+COSAS RANDOM:
