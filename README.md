@@ -12,6 +12,6 @@ Proyecto (nombre)
 
 
 Descripción:
-Se trata de una plataforma móvil que se desplazará en una dirección especificada y retornará a su lugar de origen, lugar donde tendrá una base de carga inalámbrica para permitir el funcionamiento durante de forma constante. Sobre la base iría un cesto de basura cuya tapa se abrirá automáticamente cuando el usuario se acerque lo suficiente.
+Se trata de una plataforma móvil que se desplazará en una dirección especificada y retornará a su lugar de origen, lugar donde tendrá una base de carga inalámbrica para permitir el funcionamiento de forma constante. Sobre la base iría un cesto de basura cuya tapa se abrirá automáticamente cuando el usuario se acerque lo suficiente.
 
 En el archivo 'ANTEPROYECTO.pdf' se puede obtener más información correspondiente al proyecto.
