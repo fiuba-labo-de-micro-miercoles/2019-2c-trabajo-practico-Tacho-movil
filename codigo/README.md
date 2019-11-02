@@ -15,3 +15,7 @@ Acá vamos agregando las tareas que restan por hacer. De cualquier índole pero 
 **COSAS RANDOM:**
 
 - HACER UN ESQUEMATICO DEL CIRCUITO
+
+**MATERIALES**
+- [Sensor infrarrojo] (http://www.sycelectronica.com.ar/articulo.php?codigo=AR-INFRA) x3
+- [Módulo RF] (http://www.sycelectronica.com.ar/articulo.php?codigo=AR-NRF24L01) 
