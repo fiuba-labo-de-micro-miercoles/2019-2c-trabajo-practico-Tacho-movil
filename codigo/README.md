@@ -14,7 +14,8 @@ Acá vamos agregando las tareas que restan por hacer. De cualquier índole pero 
 
 **COSAS RANDOM:**
 
-- HACER UN ESQUEMATICO DEL CIRCUITO
+- HACER UN ESQUEMATICO DEL CIRCUITO7
+- [Funcionamiento driver del motor](https://www.youtube.com/watch?v=c0L4gNKwjRw)
 
 **MATERIALES**
 
