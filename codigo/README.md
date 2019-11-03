@@ -21,4 +21,6 @@ Acá vamos agregando las tareas que restan por hacer. De cualquier índole pero 
 [SyC Arduino](http://www.sycelectronica.com.ar/arduinoyraspberry.php#SENSORES)
 - [Sensor infrarrojo](http://www.sycelectronica.com.ar/articulo.php?codigo=AR-INFRA) x3
 - [Módulo RF](http://www.sycelectronica.com.ar/articulo.php?codigo=AR-NRF24L01) 
+- [Placa para control de motor](http://www.sycelectronica.com.ar/articulo.php?codigo=AR-L298SHIELD)
+
 
