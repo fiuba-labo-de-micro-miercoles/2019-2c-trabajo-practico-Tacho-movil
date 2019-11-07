@@ -84,8 +84,8 @@ LOOP:
 	BREQ EXIT_MOVER_TACHO_ADELANTE ;los sensores devolvieron 1 y 1 -> frenar
 	;si se llega a esta porcion de codigo pinD4 y 5 no son ni 00 ni 11
 	SBIC PORTD, PIND4
-	RJMP GIRAR_IZQUIERDA ;si pind4 = 1 -> gira a la izquierda
-	RJMP GIRAR_DERECHA ;		¿es mejor poner RCALL o RJMP? 
+	RCALL GIRAR_IZQUIERDA ;si pind4 = 1 -> gira a la izquierda
+	RCALL GIRAR_DERECHA ;		¿es mejor poner RCALL o RJMP? 
 
 EXIT_MOVER_TACHO_ADELANTE:
 	RET
