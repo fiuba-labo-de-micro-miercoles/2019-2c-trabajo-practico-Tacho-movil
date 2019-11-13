@@ -86,6 +86,7 @@ LOOP:
 	SBIC PORTD, PIND4
 	RCALL GIRAR_IZQUIERDA ;si pind4 = 1 -> gira a la izquierda
 	RCALL GIRAR_DERECHA ;		¿es mejor poner RCALL o RJMP? 
+	RJMP LOOP
 
 EXIT_MOVER_TACHO_ADELANTE:
 	RET
