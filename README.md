@@ -5,7 +5,7 @@ Repositorio para la documentación de proyectos de
 
 Integrantes:
 -Aupi, Santiago (100793)
--De Marco, Facundo (100620)
+-Demarco, Facundo (100620)
 -Gayet, Denise (100828)
 
 Proyecto (**smarTTrash**) 
