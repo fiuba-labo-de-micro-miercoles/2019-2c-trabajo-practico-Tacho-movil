@@ -56,7 +56,7 @@ IN1		IN2		|	IN1 		IN2		|
 .EQU MOTOR_IZQ_0 = PIND7 ;motor izquierdo para mover tacho
 .EQU MOTOR_IZQ_1 = PIND6 ;motor izquierdo para mover tacho
 .EQU MOTOR_DER_0 = PIND0 ;motor derecho para mover tacho
-.EQU MOTOR_DER_1 = PIND1 ;motor izquierdo para mover tacho
+.EQU MOTOR_DER_1 = PIND1 ;motor derecho para mover tacho
 
 .CSEG
 .ORG 
