@@ -16,41 +16,8 @@ SENSOR_IZQ | SENSOR_DER  |   MOVIMIENTO
 	1	   |	 0		 |   girar a izq
 	1	   |	 1		 |	   frenar
 */
-.EQU SENSOR = PIND
-.EQU SENSOR_IZQ = PIND5 ;sensor izquierdo
-.EQU SENSOR_DER = PIND4 ;sensor derecho
-;Dos pines para cada motor para poder cambiar la direccion de giro (ESTOS PINES SE CONECTAN AL PUENTE H)
-.EQU MOTOR_IZQ_0 = PIND6 ;motor izquierdo para mover tacho
-.EQU MOTOR_IZQ_1 = PIND7 ;motor izquierdo para mover tacho
-.EQU MOTOR_DER_0 = PIND2 ;motor derecho para mover tacho
-.EQU MOTOR_DER_1 = PIND3 ;motor izquierdo para mover tacho
+MOVER:
 
-.CSEG
-RJMP MAIN
-
-.ORG INT_VECTORS_SIZE
-MAIN:
-	;STACK POINTER
-	LDI R16, LOW(RAMEND)
-	OUT SPL, R16
-	LDI R16, HIGH(RAMEND)
-	OUT SPH, R16
-
-CONFIG:
-	;setear como entrada los pintes de c/u de los sensores (AHORA DDRD)
-	CBI DDRD, SENSOR_IZQ 
-	CBI DDRD, SENSOR_DER
-	;SETEO PORTDn A 0 PARA DESACTIVAR LA RESISTENCIA PULL-UP
-	CBI PORTD, SENSOR_IZQ
-	CBI PORTD, SENSOR_DER
-	;seteo como salida los pines que controlan el motor (DOS POR CADA MOTOR)(AHORA USANDO DDRD)
-	SBI DDRD, MOTOR_IZQ_0
-	SBI DDRD, MOTOR_IZQ_1
-	SBI DDRD, MOTOR_DER_0
-	SBI DDRD, MOTOR_DER_1
-
-	SBI DDRC, 0
-	SBI PORTC, 0
 LOOP:
 	;leemos los	sensores (condicion de corte, PIND4=PIND5=1)
 	IN R16, SENSOR
@@ -68,8 +35,8 @@ LOOP:
 	;RCALL DELAY_500ms
 	CBI PORTC, 0
 
-;EXIT_MOVER_TACHO_ADELANTE:
-;	RET
+EXIT_MOVER:
+	RET
 
 GIRAR_IZQUIERDA:
 	RCALL APAGAR_MOTOR_IZQ
@@ -102,7 +69,7 @@ FRENAR:
 	IN R16, SENSOR
 	CBR R16, 1<<MOTOR_IZQ_1 |1<<MOTOR_DER_1 | 1<<MOTOR_IZQ_0 | 1<<MOTOR_DER_0 ;limpia las posiciones que elegi
 	OUT PORTD, R16
-	JMP LOOP
+	RJMP EXIT_MOVER:
 
 ;REVISAR RUTINAS DE PRENDER/APAGAR MOTORES, HACERLAS DE FORMA MAS GENERICA PARA APAGAR/PRENDER INDEPENDIENTE
 ;DEL SENTIDO DE GIRO QUE TENGA EL MOTOR EN EL MOMENTO
