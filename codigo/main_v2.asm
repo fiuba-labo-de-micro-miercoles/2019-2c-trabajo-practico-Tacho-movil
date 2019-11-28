@@ -36,14 +36,14 @@ MAIN:
 
 	;
 
-	;habilitio la comunicación e interrupciones
+	;habilitio la comunicaciÃ³n e interrupciones
 	RCALL USART_INIT 
 	SEI
 
 HERE:
 	RJMP HERE
 
-;rutina de interrupción
+;rutina de interrupciÃ³n
 ISR_USART:
 	LDS R18, UDR0
 	CPI R18, BOTON_ADELANTE
@@ -72,7 +72,7 @@ AVANZAR_TACHO:
 	.SET MOTOR_DER_0 = PIND2 ;motor derecho para mover tacho
 	.SET MOTOR_DER_1 = PIND3 ;motor izquierdo para mover tacho
 	CALL MOVER
-	RETI
+	RJMP ETIQUETA_RETI
 
 RETROCEDER_TACHO:
 	.SET SENSOR_IZQ = PINB5
@@ -82,7 +82,7 @@ RETROCEDER_TACHO:
 	.SET MOTOR_IZQ_0 = PIND3
 	.SET MOTOR_IZQ_1 = PIND2
 	CALL MOVER
-	RETI
+	RJMP ETIQUETA_RETI
 
 	.nolist
 	.INCLUDE "m328pdef.inc"
