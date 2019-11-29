@@ -54,7 +54,7 @@ MAIN:
 	SBI PORTD, 0
 	;----;
 
-	;habilitio la comunicaciÛn e interrupciones
+	;habilitio la comunicaci√≥n e interrupciones
 	RCALL USART_INIT 
 	SEI
 
@@ -68,8 +68,7 @@ ISR_USART:
 	CPI R18, BOTON_ADELANTE
 	BREQ AVANZAR_TACHO
 	CPI R18, BOTON_ATRAS
-	;BREQ RETROCEDER_TACHO
-	BREQ AVANZAR_TACHO
+	BREQ RETROCEDER_TACHO
 ETIQUETA_RETI:
 	RETI
 
@@ -85,7 +84,7 @@ USART_INIT:
 
 AVANZAR_TACHO:
 	/*
-	tendr· que avanzar si y solo si ambos
+	tendr√° que avanzar si y solo si ambos
 	sensores devuelven 0 (ven blanco)
 	*/
 
@@ -101,13 +100,13 @@ AVANZAR_TACHO:
 	.SET SENSOR_PORT = PORTD
 
 	;---;
-	;comparaciÛn para saber si ambos sensores ven 0 (blanco) y en dicho caso avanzar
+	;comparaci√≥n para saber si ambos sensores ven 0 (blanco) y en dicho caso avanzar
 	IN AUX, SENSOR_PIN
-	ANDI AUX, (1<<SENSOR_IZQ) | (1<< SENSOR_DER) ;m·scara para los pines correspondientes
+	ANDI AUX, (1<<SENSOR_IZQ) | (1<< SENSOR_DER) ;m√°scara para los pines correspondientes
 	CPI AUX, 0
 	BREQ MOVERSE
 	RJMP ETIQUETA_RETI
-	/*
+	
 RETROCEDER_TACHO:
 	.SET PORT_MOTOR = PORTD
 	.SET SENSOR_IZQ = PINB5
@@ -120,13 +119,12 @@ RETROCEDER_TACHO:
 	.SET SENSOR_PORT = PORTB
 
 	;---;
-	;comparaciÛn para saber si ambos sensores ven 0 (blanco) y en dicho caso avanzar
+	;comparaci√≥n para saber si ambos sensores ven 0 (blanco) y en dicho caso avanzar
 	IN AUX, SENSOR_PIN
-	ANDI AUX, (1<<SENSOR_IZQ) | (1<< SENSOR_DER) ;m·scara para los pines correspondientes
+	ANDI AUX, (1<<SENSOR_IZQ) | (1<< SENSOR_DER) ;m√°scara para los pines correspondientes
 	CPI AUX, 0
 	BREQ MOVERSE
 	RJMP ETIQUETA_RETI
-	*/
 
 MOVERSE:
 	CALL MOVER
