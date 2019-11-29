@@ -1,22 +1,9 @@
-/*
- * main.asm
- *
- *  Created: 11/28/2019 8:48:22 PM
- *   Author: denise
- *	CLK: 16 MHz
- */ 
+
+ 
 	.DEF AUX = R16
 	.EQU BOTON_ADELANTE = 57 ;9 en ascii
 	.EQU BOTON_ATRAS = 53	;5 en ascii
-	.EQU SENSOR = PIND
-	.SET SENSOR_IZQ = PIND5 ;sensor izquierdo
-	.SET SENSOR_DER = PIND4 ;sensor derecho
-;Dos pines para cada motor para poder cambiar la direccion de giro (ESTOS PINES SE CONECTAN AL PUENTE H)
-	.SET MOTOR_IZQ_0 = PIND6 ;motor izquierdo para mover tacho
-	.SET MOTOR_IZQ_1 = PIND7 ;motor izquierdo para mover tacho
-	.SET MOTOR_DER_0 = PIND2 ;motor derecho para mover tacho
-	.SET MOTOR_DER_1 = PIND3 ;motor izquierdo para mover tacho
-
+	
 
 	.CSEG
 	.ORG 0x00
@@ -63,7 +50,21 @@ USART_INIT:
 	LDI AUX, (1<<USBS0) | (3<<UCSZ00)
 	STS UCSR0C, AUX
 
+RETROCEDER_TACHO:
+	.SET PORT_MOTOR = PORTD
+	.SET SENSOR_IZQ = PINB5
+	.SET SENSOR_IZQ = PINB4
+	.SET MOTOR_DER_0 = PIND7
+	.SET MOTOR_DER_1 = PIND6
+	.SET MOTOR_IZQ_0 = PIND3
+	.SET MOTOR_IZQ_1 = PIND2
+	.SET SENSOR = PINB
+	CALL MOVER
+	RJMP ETIQUETA_RETI
+
+
 AVANZAR_TACHO:
+	.SET PORT_MOTOR = PORTD
 	.SET SENSOR_IZQ = PIND5 ;sensor izquierdo
 	.SET SENSOR_DER = PIND4 ;sensor derecho
 	;Dos pines para cada motor para poder cambiar la direccion de giro (ESTOS PINES SE CONECTAN AL PUENTE H)
@@ -71,21 +72,13 @@ AVANZAR_TACHO:
 	.SET MOTOR_IZQ_1 = PIND7 ;motor izquierdo para mover tacho
 	.SET MOTOR_DER_0 = PIND2 ;motor derecho para mover tacho
 	.SET MOTOR_DER_1 = PIND3 ;motor izquierdo para mover tacho
+	.SET SENSOR = PIND
 	CALL MOVER
 	RJMP ETIQUETA_RETI
 
-RETROCEDER_TACHO:
-	.SET SENSOR_IZQ = PINB5
-	.SET SENSOR_IZQ = PINB4
-	.SET MOTOR_DER_0 = PIND7
-	.SET MOTOR_DER_1 = PIND6
-	.SET MOTOR_IZQ_0 = PIND3
-	.SET MOTOR_IZQ_1 = PIND2
-	CALL MOVER
-	RJMP ETIQUETA_RETI
+
 
 	.nolist
 	.INCLUDE "m328pdef.inc"
 	.INCLUDE "motor.asm"
 	.list
-	
