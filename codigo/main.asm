@@ -1,0 +1,153 @@
+/*
+ * main.asm
+ *
+ *  Created: 28/11/2019 21:05:18
+ *   Author: chiqu
+ */ 
+	;.INCLUDE "m328pdef.inc"
+	;.INCLUDE "motor.asm"
+	
+	.DEF AUX = R16
+	.EQU BOTON_ADELANTE = 57 ;9 en ascii
+	.EQU BOTON_ATRAS = 53	;5 en ascii
+
+	.SET PORT_MOTOR_VUELTA = PORTD
+	.SET SENSOR_IZQ_VUELTA = PINB5
+	.SET SENSOR_DER_VUELTA = PINB4
+	.SET MOTOR_DER_0_VUELTA = PIND6
+	.SET MOTOR_DER_1_VUELTA = PIND7
+	.SET MOTOR_IZQ_0_VUELTA = PIND2
+	.SET MOTOR_IZQ_1_VUELTA = PIND3
+	.SET SENSOR_PIN_VUELTA = PINB
+	.SET SENSOR_PORT_VUELTA = PORTB
+
+	.SET PORT_MOTOR = PORTD
+	;Dos pines para cada motor para poder cambiar la direccion de giro (ESTOS PINES SE CONECTAN AL PUENTE H)
+	.SET MOTOR_IZQ_0 = PIND7 ;motor izquierdo para mover tacho
+	.SET MOTOR_IZQ_1 = PIND6 ;motor izquierdo para mover tacho
+	.SET MOTOR_DER_0 = PIND3 ;motor derecho para mover tacho
+	.SET MOTOR_DER_1 = PIND2 ;motor izquierdo para mover tacho
+	.SET SENSOR_PIN = PIND
+	.SET SENSOR_PORT = PORTD
+	.SET SENSOR_IZQ = PIND5 ;sensor izquierdo
+	.SET SENSOR_DER = PIND4 ;sensor derecho
+
+	.CSEG
+	.ORG 0x00
+	RJMP MAIN
+
+	.ORG URXCaddr
+	RJMP ISR_USART
+
+	.ORG INT_VECTORS_SIZE
+
+MAIN:
+	;inicializo el stack
+	LDI R16, LOW(RAMEND)
+	OUT SPL, R16
+	LDI R26, HIGH(RAMEND)
+	OUT SPH, R16
+	;limpio el flag de las interrupciones globales
+	CLI
+
+	;CONFIGURACION DE PINES
+	;APAGAR TODOS LOS MOTORES AL INICIO
+	CLR AUX
+	OUT PORTD, AUX
+	;----;
+	;CONFIGURACION DE PINES
+	SBI DDRD, MOTOR_IZQ_0  ;seteando como salida los pines que controlan el MOTOR (DOS POR CADA MOTOR)(AHORA USANDO DDRD)
+	SBI DDRD, MOTOR_IZQ_1
+	SBI DDRD, MOTOR_DER_0
+	SBI DDRD, MOTOR_DER_1
+	
+	;seteando como salida los SENSORES
+	CBI DDRB, SENSOR_IZQ_VUELTA
+	CBI DDRB, SENSOR_DER_VUELTA
+	CBI DDRD, SENSOR_IZQ
+	CBI DDRD, SENSOR_DER
+	;----;
+
+	;habilitio la comunicación e interrupciones
+	RCALL USART_INIT
+	SEI
+
+HERE:
+	RJMP HERE
+
+
+USART_INIT:
+	;configurando los baudios para la comunicacion 9600
+	CLR AUX
+	STS UBRR0H, AUX
+	LDI AUX, 0x67 ;9600 baudios
+	STS UBRR0L, AUX 
+	;hablito emision,transmision, interrupcion
+	LDI AUX, (1<<RXEN0) | (1<<RXCIE0)
+	STS UCSR0B, AUX
+	;seteo el formato de comunicacion: 8bits de data, 1bits de stop
+	LDI AUX, (0<<USBS0) | (1<<UCSZ00) | (1<<UCSZ01)
+	STS UCSR0C, AUX
+	RET
+
+;--------------------;
+;RUTINA DE INTERRUPCION
+ISR_USART:
+	;PUSH SREG 
+	LDS R18, UDR0
+	CPI R18, BOTON_ADELANTE
+	BREQ AVANZAR_TACHO
+	CPI R18, BOTON_ATRAS
+	BREQ RETROCEDER_TACHO
+ETIQUETA_RETI:
+	;POP SREG
+	RETI
+
+AVANZAR_TACHO:
+	IN AUX, SENSOR_PIN
+	ANDI AUX, (1<<SENSOR_IZQ) | (1<< SENSOR_DER) ;máscara para los pines correspondientes
+	CPI AUX, (1<<SENSOR_IZQ)
+	BREQ PRENDER_MOTORES_DER
+	CPI AUX, (1<<SENSOR_DER)
+	BREQ PRENDER_MOTORES_IZQ
+SEGUIR:
+	CALL MOVER
+	RJMP ETIQUETA_RETI
+
+PRENDER_MOTORES_IZQ:
+	SBI PORT_MOTOR, MOTOR_IZQ_0
+	RJMP SEGUIR
+
+PRENDER_MOTORES_DER:
+	SBI PORT_MOTOR, MOTOR_DER_0
+	RJMP SEGUIR
+
+RETROCEDER_TACHO:
+	;---;
+	IN AUX, SENSOR_PIN_VUELTA
+	ANDI AUX, (1<<SENSOR_IZQ_VUELTA) | (1<< SENSOR_DER_VUELTA) ;máscara para los pines correspondientes
+	CPI AUX, (1<<SENSOR_IZQ_VUELTA)
+	BREQ PRENDER_MOTORES_VUELTA_DER
+	CPI AUX, (1<<SENSOR_DER_VUELTA)
+	BREQ PRENDER_MOTORES_VUELTA_IZQ
+SEGUIR_VUELTA:
+	CALL MOVER_VUELTA
+	RJMP ETIQUETA_RETI
+
+PRENDER_MOTORES_VUELTA_IZQ:
+	SBI PORT_MOTOR, MOTOR_IZQ_0_VUELTA
+	RJMP SEGUIR_VUELTA
+
+PRENDER_MOTORES_VUELTA_DER:
+	SBI PORT_MOTOR, MOTOR_DER_0_VUELTA
+	RJMP SEGUIR_VUELTA
+
+
+	;.nolist
+	.INCLUDE "m328pdef.inc"
+	.INCLUDE "motor.asm"
+	.INCLUDE "motor_vuelta.asm"
+	;.list
+
+
+
