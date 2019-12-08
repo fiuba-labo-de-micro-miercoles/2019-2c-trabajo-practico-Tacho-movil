@@ -71,8 +71,11 @@ MAIN:
 	;habilitio la comunicación e interrupciones
 	RCALL USART_INIT
 	SEI
-
+	
 HERE:
+	LDI R16, (1<<SE) ;habilitando el sleep mode
+	OUT MCUCR, R16
+	SLEEP ;sleep mode ON
 	RJMP HERE
 
 
@@ -93,14 +96,12 @@ USART_INIT:
 ;--------------------;
 ;RUTINA DE INTERRUPCION
 ISR_USART:
-	;PUSH SREG 
 	LDS R18, UDR0
 	CPI R18, BOTON_ADELANTE
 	BREQ AVANZAR_TACHO
 	CPI R18, BOTON_ATRAS
 	BREQ RETROCEDER_TACHO
 ETIQUETA_RETI:
-	;POP SREG
 	RETI
 
 AVANZAR_TACHO:
@@ -123,7 +124,6 @@ PRENDER_MOTORES_DER:
 	RJMP SEGUIR
 
 RETROCEDER_TACHO:
-	;---;
 	IN AUX, SENSOR_PIN_VUELTA
 	ANDI AUX, (1<<SENSOR_IZQ_VUELTA) | (1<< SENSOR_DER_VUELTA) ;máscara para los pines correspondientes
 	CPI AUX, (1<<SENSOR_IZQ_VUELTA)
@@ -143,11 +143,9 @@ PRENDER_MOTORES_VUELTA_DER:
 	RJMP SEGUIR_VUELTA
 
 
-	;.nolist
 	.INCLUDE "m328pdef.inc"
 	.INCLUDE "motor.asm"
 	.INCLUDE "motor_vuelta.asm"
-	;.list
 
 
 
