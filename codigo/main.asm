@@ -74,7 +74,7 @@ MAIN:
 	
 HERE:
 	LDI R16, (1<<SE) ;habilitando el sleep mode
-	OUT MCUCR, R16
+	OUT SMCR, R16
 	SLEEP ;sleep mode ON
 	RJMP HERE
 
